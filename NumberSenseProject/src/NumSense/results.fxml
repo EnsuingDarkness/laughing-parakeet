@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.Button?>
+<GridPane prefHeight="300" prefWidth="275" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NumSense.resultsController">
+         <children>
+            <Text text="Time's Up!" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <font>
+                    <Font name = "Arial Bold" size = "24.0" >
+                    </Font>
+                </font>
+            </Text>
+             <Text text = "  Here's how you did: " GridPane.columnIndex="0" GridPane.rowIndex="1">
+                 <font>
+                     <Font name = "Arial" size = "10"></Font>
+                 </font>
+             </Text>
+             <Text text = "CORRECT: " GridPane.columnIndex="0" GridPane.rowIndex="3"  fx:id="correctText" style="-fx-fill: green" >
+                 <font>
+                     <Font name = "Impact" size = "18"></Font>
+                 </font>
+             </Text>
+             <Text text = "INCORRECT: " GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="incorrectText" style="-fx-fill: crimson">
+                 <font>
+                     <Font name = "Impact" size = "18"></Font>
+                 </font>
+             </Text>
+             <Text text = "TOTAL: " GridPane.columnIndex="0" GridPane.rowIndex="5" fx:id="totalText">
+                 <font>
+                     <Font name = "Impact" size = "18"></Font>
+                 </font>
+             </Text>
+             <Text text = "TIME PER QUESTION:  " GridPane.columnIndex="0" GridPane.rowIndex="6" fx:id="tpqText">
+                 <font>
+                     <Font name = "Impact" size = "14"></Font>
+                 </font>
+             </Text>
+             <Text text = " " GridPane.columnIndex="0" GridPane.rowIndex="2" >
+                 <font>
+                     <Font name = "Impact" size = "24"></Font>
+                 </font>
+             </Text>
+             <Button text = "Return to Main" GridPane.columnIndex="1" GridPane.rowIndex="0" id = "returnButton" GridPane.halignment="RIGHT" onAction="#handleMain"/>
+         </children>
+      </GridPane>
