@@ -24,6 +24,7 @@ public class submenu1Controller {
         practiceController.setPracticeType(1);
         loadNextScene();
     }
+    @FXML
     private void handle2() throws IOException{
         practiceController.setPracticeType(2);
         loadNextScene();

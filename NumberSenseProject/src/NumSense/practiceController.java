@@ -1,6 +1,7 @@
 package NumSense;
 
-import com.sun.org.apache.xerces.internal.dom.ParentNode;
+
+import NumSense.Problems.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
@@ -12,21 +13,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
 
 public class practiceController {
     @FXML
@@ -40,27 +38,24 @@ public class practiceController {
     @FXML
     private Text timer;
 
-    private static int correct = 0, total = 0;
-    private static double practiceD, initpracticeD, answer;
-    private static int problemT, pracitceT;
-    private static String problemText;
+    private static int correct = 0, total = 0, practiceT;
+    private static double practiceD, initpracticeD;
+    private static String problemText, answer;
     private FadeTransition textFade = new FadeTransition(Duration.millis(500));
     private ScaleTransition visualTimer = new ScaleTransition();
     private Timeline countdown = new Timeline();
     private ArrayList<Problem> problemset;
+    private Problem curr;
 
-    DecimalFormat timef = new DecimalFormat("###.00");
+    private DecimalFormat timef = new DecimalFormat("###.00");
 
-    private Text getProblem() {
-        return problem;
-    }
 
     public static int[] getPracticeData(){
         int[] data = {correct, total};
         return data;
     }
-    private void checkAnswer(String input, double key) {
-        if (isNumber(input) && Double.parseDouble(input) == key) {
+    private void showAnswer(boolean wasCorrect) {
+        if (wasCorrect) {
             result.setText("Correct");
             result.setFill(Color.GREEN);
             setCorrect(getCorrect() + 1);
@@ -74,13 +69,8 @@ public class practiceController {
         textFade.stop();
         textFade.setDelay(Duration.millis(500));
         textFade.play();
-        resetProblem();
+        curr.resetProblem();
     }
-
-    private static String getProblemText() {
-        return problemText;
-    }
-    private static void setProblemText(String s){problemText = s; }
 
     private static void setPracticeDuration(double d){practiceD = d;}
     public static double getPracticeDuration(){ return practiceD; }
@@ -95,26 +85,20 @@ public class practiceController {
     private static int getTotal(){return total;}
 
 
-    public static void setProblemType(int t) {
-        problemT = t;
-    }
-
     public static void setPracticeType(int t) {
-        pracitceT = t;
+        practiceT = t;
     }
 
     private void setupPractice() {
         setCorrect(0);
         setTotal(0);
-        problemset = new ArrayList<Problem>();
-        switch (pracitceT) {
+        problemset = new ArrayList<>();
+        switch (practiceT) {
             case 0:
-                problemset.add(new Problem(0));
+                problemset.add(new LNAProblem());
                 setPracticeDuration(100);
                 break;
-            case 1:
-                problemset.add(new Problem(1));
-                setPracticeDuration(100);
+
             default:
                 break;
         }
@@ -131,18 +115,17 @@ public class practiceController {
         return true;
     }
 
-    private void resetProblem() {
+    private void updateScreen() {
         int index = (int) Math.random()*problemset.size();
-        Problem curr = problemset.get(index);
-        curr.generateNewProblem(curr.getid());
+        curr = problemset.get(index);
 
         problem.setVisible(true);
-        problem.setText(curr.getProblem());
+        problem.setText(curr.toString());
         input.setText("");
         answer = curr.getAnswer();
 
         visualTimer.stop();
-        visualTimer.setDuration(Duration.seconds(curr.getDuration()));
+        visualTimer.setDuration(Duration.seconds(curr.getTime()));
         visualTimer.setNode(pTimer);
         visualTimer.setFromX(pTimer.getWidth());
         visualTimer.setToX(0);
@@ -187,26 +170,17 @@ public class practiceController {
 
         countdown.playFromStart();
 
-        visualTimer.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                checkAnswer(input.getText(), answer);
-            }
-        });
+        visualTimer.setOnFinished(event -> showAnswer(curr.checkAnswer(input.getText())));
 
-
-        resetProblem();
+        updateScreen();
         Scene thisScene = problem.getScene();
 
         //answer entered
-        thisScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    String enteredText = input.getText();
-                    checkAnswer(enteredText, answer);
-                }
-
+        thisScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String enteredText = input.getText();
+                showAnswer(curr.checkAnswer(enteredText));
+                updateScreen();
             }
 
         });
