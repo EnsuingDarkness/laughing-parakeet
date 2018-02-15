@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class submenu1Controller {
 
+    //cases 0 - 11
+
     @FXML
     private Button b0;
 

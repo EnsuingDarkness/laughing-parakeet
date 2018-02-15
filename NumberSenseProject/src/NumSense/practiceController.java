@@ -98,6 +98,10 @@ public class practiceController {
                 problemset.add(new LNAProblem());
                 setPracticeDuration(100);
                 break;
+            case 1:
+                problemset.add(new LNSProblem());
+                setPracticeDuration(100);
+                break;
 
             default:
                 break;
@@ -170,7 +174,10 @@ public class practiceController {
 
         countdown.playFromStart();
 
-        visualTimer.setOnFinished(event -> showAnswer(curr.checkAnswer(input.getText())));
+        visualTimer.setOnFinished(event -> {
+            showAnswer(curr.checkAnswer(input.getText()));
+            updateScreen();
+        });
 
         updateScreen();
         Scene thisScene = problem.getScene();

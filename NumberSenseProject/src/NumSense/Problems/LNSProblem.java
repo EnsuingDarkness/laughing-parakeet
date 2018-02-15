@@ -1,18 +1,18 @@
 package NumSense.Problems;
 
-
-public class LNAProblem implements Problem{
+public class LNSProblem implements Problem{
     private int left;
     private int right;
     private int answer;
 
-    public LNAProblem(){
+    public LNSProblem(){
         resetProblem();
     }
 
+
     @Override
     public String getName() {
-        return "Large Number Addition";
+        return "Large Number Subtraction";
     }
 
     @Override
@@ -22,9 +22,9 @@ public class LNAProblem implements Problem{
 
     @Override
     public void resetProblem() {
-        left = ((int) (Math.random()*10000));
-        right = ((int) (Math.random()*10000));
-        answer = left + right;
+        left = (int) (((int) (Math.random() * 10) * 1000) + (Math.random() * 10));
+        right = (int) (((int) (Math.random() * 10) * 1000) + (Math.random() * 10));
+        answer = left - right;
     }
 
     @Override
@@ -34,10 +34,10 @@ public class LNAProblem implements Problem{
 
     @Override
     public boolean checkAnswer(String input) {
-        return input != null && !input.equals("") && Integer.parseInt(input) == answer;
+        return input != null && !(input.equals("") || input.equals("-")) && Integer.parseInt(input) == answer;
     }
 
     public String toString(){
-        return left + " + " + right + " = " + " ____ ";
+        return left + " - " + right + " = " + " ____ ";
     }
 }

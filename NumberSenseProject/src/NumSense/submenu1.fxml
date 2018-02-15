@@ -13,7 +13,9 @@
     <GridPane>
         <Button fx:id= "b0" text="Adding Large Numbers" GridPane.columnIndex="0" GridPane.rowIndex="0" onAction="#handle0"/>
         <Button fx:id= "b1" text="Subtracting Large Numbers" GridPane.columnIndex="1" GridPane.rowIndex="0" onAction="#handle1"/>
-        <Button fx:id= "b2" text="Adding Fractions" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#handle2"/>
+        <Button fx:id= "b2" text="TBI" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#handle2"/>
+        <Button fx:id= "b3" text="TBI" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#handle2"/>
+
     </GridPane>
 
 </AnchorPane>
